@@ -132,7 +132,78 @@ export const oneEdit = (str1, str2) => {
     return true
 }
 
-// export const stringCompression = str => {
-//     const arr = []
-//     const
-// }
+export const stringCompression = str => {
+    const arr = []
+    let prevChar = str[0]
+    let count = 1
+
+    for (let i = 1; i <= str.length; i++) {
+        if (str[i] === prevChar) {
+            count++
+        } else {
+            arr.push(`${prevChar}${count}`)
+            prevChar = str[i]
+            count = 1
+        }
+    }
+
+    const compressed = arr.join('')
+
+    return compressed.length < str.length ? compressed : str
+}
+
+export const rotateMatrix = matrix => {
+    let n = matrix.length
+    let rotations = n / 2
+    for (let c = 0; c < rotations; c++) {
+        for (let i = c; i < n - 1 - c; i++) {
+            let nw = matrix[c][i]
+            let ne = matrix[i][n - 1 - c]
+            let se = matrix[n - 1 - c][n - 1 - i]
+            let sw = matrix[n - 1 - i][c]
+
+            matrix[c][i] = ne
+            matrix[i][n - 1 - c] = se
+            matrix[n - 1 - c][n - 1 - i] = sw
+            matrix[n - 1 - i][c] = nw
+        }
+    }
+    return matrix
+}
+
+export const zeroMatrix = matrix => {
+    const zeroRowsSet = new Set()
+    const zeroColumnsSet = new Set()
+
+    for (let r = 0; r < matrix.length; r++) {
+        for (let c = 0; c < matrix[0].length; c++) {
+            if (matrix[r][c] === 0) {
+                zeroRowsSet.add(r)
+                zeroColumnsSet.add(c)
+            }
+        }
+    }
+
+    const zeroRows = Array.from(zeroRowsSet)
+    const zeroColumns = Array.from(zeroColumnsSet)
+
+    for (let row of zeroRows) {
+        for (let matrixColumn = 0; matrixColumn < matrix[row].length; matrixColumn++){
+            matrix[row][matrixColumn] = 0
+        }
+    }
+    for (let col of zeroColumns) {
+        for (let matrixRow = 0; matrixRow < matrix.length; matrixRow++){
+            matrix[matrixRow][col] = 0
+        }
+    }
+
+    return matrix
+}
+
+export const isStringRotation = (str1, str2) => {
+    const doubleStr1 = str1 + str1
+    return doubleStr1.includes(str2)
+}
+
+
